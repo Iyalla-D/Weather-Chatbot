@@ -27,6 +27,9 @@ public class MyBot {
         }
        
     }
+    public HashMap<String,String> getKnowledge(){
+    	return knowledge;
+    }
     
     
     
