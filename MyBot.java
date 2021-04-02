@@ -25,12 +25,16 @@ public class MyBot {
             }
               
         }
-       
+        trainMe(question);
     }
     public HashMap<String,String> getKnowledge(){
     	return knowledge;
     }
-    
-    
-    
+    public void trainMe(String question) {
+        System.out.println("Bot: Sorry, Im dumb! How should I reply");
+        System.out.print("User suggestion: ");
+        Scanner sc = new Scanner(System.in);
+        String userInput = sc.nextLine();
+        knowledge.put(question, userInput);
+    }
 }
