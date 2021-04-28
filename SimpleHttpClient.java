@@ -83,7 +83,7 @@ public final class SimpleHttpClient {
                 strWtr.write(rint);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
 
             //System.out.println("HTTP esponseCode=" + con.getResponseCode());
 
@@ -99,7 +99,7 @@ public final class SimpleHttpClient {
         try {
             instr.close();
         } catch (Exception ex) {
-            ex.printStackTrace();
+           // ex.printStackTrace();
         }
 
         return strWtr.toString();
@@ -144,7 +144,7 @@ public final class SimpleHttpClient {
             //Use post_str parameter while using HTTP POST to put post data
             ht.httpConnect("post_str", "GET", "user", "password");
         } catch (Exception e) {
-            e.printStackTrace();
+           // e.printStackTrace();
         }
     }     
 }
