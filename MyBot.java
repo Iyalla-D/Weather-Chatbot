@@ -1,3 +1,5 @@
+package chatbot;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -22,7 +24,7 @@ public class MyBot extends JFrame{
     public MyBot() {
        knowledge.put("Hi", "Hello... Please to meet you!");
        knowledge.put("how are you?", "Great! And you?");
-       knowledge.put("im fine", "Thats good to hear.");
+       knowledge.put("I'm fine", "Thats good to hear.");
        knowledge.put("good", "Thats good to hear.");
        knowledge.put("Are you a robot?", "I am a friend  to help you plan your outfit for the weather.");
        knowledge.put("What's your name","My Name is BMO the weather bot.");
@@ -44,7 +46,7 @@ public class MyBot extends JFrame{
 	    chatArea.setLineWrap(true);
 	    chatArea.setBorder(BorderFactory.createBevelBorder(1));
 	    
-	    JTextField chatbox= new JTextField();
+	    final JTextField chatbox= new JTextField();
 	    chatbox.setSize(540, 30);
 	    chatbox.setLocation(2, 500);
 	       
@@ -57,7 +59,7 @@ public class MyBot extends JFrame{
 	    chatArea.append("Bot: Hello"+"\n");
 	    chatbox.addActionListener(new ActionListener() {
 
-	    	   @Override
+	    	   //@Override
 	    	   public void actionPerformed(ActionEvent arg0) {
 	    		   String gtext = chatbox.getText();
 	    		   chatArea.append("User: " + gtext+"\n");
@@ -160,7 +162,7 @@ public class MyBot extends JFrame{
         	   chatArea.append("\n");
            }
            else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<37) {
-        	   chatArea.append("Advice: This is similar to the average body temperature. Wear a tank top and some shorts if you must go outside. +"\n";
+        	   chatArea.append("Advice: This is similar to the average body temperature. Wear a tank top and some shorts if you must go outside." +"\n");
         	   chatArea.append("\n");
            }
 
