@@ -1,20 +1,20 @@
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Set;
-
+import java.awt.*;
 import javax.swing.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 public class MyBot extends JFrame{
 	HashMap<String, String> knowledge = new HashMap<String, String>();
-	JTextArea chatArea = new JTextArea();
-	JTextField chatbox= new JTextField();
+	 JTextArea chatArea = new JTextArea();
+	
 		public static void main(String[] args) {
-			new MyBot();
+			new MyBot().setVisible(true);
 	    }
     /**
      * This is a default constructor.
@@ -22,39 +22,55 @@ public class MyBot extends JFrame{
     public MyBot() {
        knowledge.put("Hi", "Hello... Please to meet you!");
        knowledge.put("how are you?", "Great! And you?");
+       knowledge.put("im fine", "Thats good to hear.");
+       knowledge.put("good", "Thats good to hear.");
        knowledge.put("Are you a robot?", "I am a friend  to help you plan your outfit for the weather.");
        knowledge.put("What's your name","My Name is BMO the weather bot.");
        knowledge.put("Hello","Hi there, What can i help you with? ");
        knowledge.put("What do i do","Im here to help you pick out an out based on the weather.");
        knowledge.put("Do i just tell you the name of the place","Yes please ");
-       JFrame frame = new JFrame("Chatbot");
-       frame.setSize(600, 600);
-       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       frame.setResizable(false);
-       frame.setLayout(null);
-       frame.add(chatbox);
-       chatArea.setSize(500, 400);
-       chatArea.setLocation(2, 2);
-       chatArea.setLineWrap(true);
-       chatArea.setWrapStyleWord(true);
-       chatArea.setBounds(50, 50, 500, 300);
-       chatArea.setEditable(false);
-       chatbox.setSize(540, 30);
-       chatbox.setLocation(2, 500);
-       frame.add(chatArea);
-       frame.setVisible(true);
-       chatbox.addActionListener(new ActionListener() {
+   	   
+       setLayout(new BorderLayout());
+       setBounds(100, 100, 325, 300);
+       setSize(600, 600);
+       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       setLocationRelativeTo(null);
+       setResizable(false);
+	    
+	    
+	    chatArea.setEnabled(true);
+	    chatArea.setFont(new Font("Comic Sans",Font.BOLD,15));
+	    chatArea.setEditable(false);
+	    chatArea.setLineWrap(true);
+	    chatArea.setBorder(BorderFactory.createBevelBorder(1));
+	    
+	    JTextField chatbox= new JTextField();
+	    chatbox.setSize(540, 30);
+	    chatbox.setLocation(2, 500);
+	       
+	    JScrollPane scroll = new JScrollPane(chatArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-    	   @Override
-    	   public void actionPerformed(ActionEvent arg0) {
-    		   String gtext = chatbox.getText();
-    		   chatArea.append("User: " + gtext+"\n");
-    		   chatbox.setText("");
-    		   answer(gtext);
-			}
-			
-		});
+	    chatArea.setWrapStyleWord(true);
+	    add(chatbox);
+	    add(scroll);
+	    
+	    chatArea.append("Bot: Hello"+"\n");
+	    chatbox.addActionListener(new ActionListener() {
+
+	    	   @Override
+	    	   public void actionPerformed(ActionEvent arg0) {
+	    		   String gtext = chatbox.getText();
+	    		   chatArea.append("User: " + gtext+"\n");
+	    		   chatbox.setText("");
+	    		   answer(gtext);
+	    		   
+	    		   
+				}
+				
+			});
     }
+    
+    
     
     public void answer(String question) {
         Set<String> keys = knowledge.keySet();
@@ -85,6 +101,7 @@ public class MyBot extends JFrame{
 	           String json = ht.httpConnect("", "GET", "user", "password");
 	           json = json.substring(0, json.length()-1);
 	           getdata(json);
+	           chatArea.append("Bot: Any where else i can help you with?"+"\n");
 	           } 
 	       	catch (Exception e) {
 	       		chatArea.append("Not a location, Try again \n");
@@ -93,7 +110,7 @@ public class MyBot extends JFrame{
 	       }
 
     }
-    private boolean getdata(String json) throws Exception {
+    public boolean getdata(String json) throws Exception {
 
         JSONParser parser = new JSONParser();
 
@@ -102,11 +119,8 @@ public class MyBot extends JFrame{
             Object obj = parser.parse(json);
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray tempData = (JSONArray) jsonObject.get("weather");
-
+            chatArea.append("\n");
             chatArea.append("Weather: " + ((JSONObject) tempData.get(0)).get("main")+"\n");
-            if(((JSONObject) tempData.get(0)).get("main").equals("Clouds")) {
-            	 chatArea.append("Wear a sweater and maybe bring an umbrella"+"\n");
-            }
            
             chatArea.append("Weather Description: " + ((JSONObject) tempData.get(0)).get("description")+"\n");
 
@@ -118,28 +132,36 @@ public class MyBot extends JFrame{
             chatArea.append("Pressure: " + tempData1.get("pressure")+"\n"); //hpa
             chatArea.append("Humidity: " + tempData1.get("humidity")+"\n"); //%
             if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<-10.00) {
-         	   System.out.println();
+            	chatArea.append("Advice:Very cold still but bearable if in lots of warm clothes"+"\n");
+            	chatArea.append("\n");
             }
-            else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<0.00) {
-         	   System.out.println();
+            else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<0) {
+            	chatArea.append("Advice: These are freezing temperatures, so put on a thick winter jacket with some winter gloves. If possible wear multilayered clothes underneath"+"\n");
+            	chatArea.append("\n");
             }
-            else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<4.00) {
-         	   System.out.println();
+            else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<4) {
+            	chatArea.append("Advice: Its going to be really cold so wear a winter coat, scarf, pullover and maybe some gloves."+"\n");
+            	chatArea.append("\n");
             }
-            else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<15.00) {
-            	chatArea.append("The weather cold so bring a jacket");
+            else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<15) {
+            	chatArea.append("Advice: The weather is going to be cool so bring a jacket."+"\n");
+            	chatArea.append("\n");
             }
-           else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<20.00) {
-        	   System.out.println();
+           else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<20) {
+        	   chatArea.append("Advice: Its going to be room temperature, so maybe wear a long sleeve shirt today."+"\n");
+        	   chatArea.append("\n");
            }
-           else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<25.00) {
-        	   System.out.println();
+           else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<25) {
+        	   chatArea.append("Advice:Typical Summer temperature, wear something light and maybe go to the beach or a pool to cool off. "+"\n");
+        	   chatArea.append("\n");
            }
-           else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<30.00) {
-        	   System.out.println();
+           else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<30) {
+        	   chatArea.append("Advice: Its a bit hot today so maybe wear a short sleeve shirt/t shirt or a light dress."+"\n");
+        	   chatArea.append("\n");
            }
-           else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<37.00) {
-        	   System.out.println();
+           else if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<37) {
+        	   chatArea.append("Advice: This is similar to the average body temperature. Wear a tank top and some shorts if you must go outside. +"\n";
+        	   chatArea.append("\n");
            }
 
         } catch (Exception e) {
