@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Set;
 import java.awt.*;
@@ -56,7 +58,7 @@ public class MyBot extends JFrame{
 	    add(chatbox);
 	    add(scroll);
 	    chatArea.setBackground( new Color(108, 193, 227));
-	    chatArea.append("Bot: Type 'hello' to start."+"\n");
+	    chatArea.append("Bot: Hello"+"\n");
 	    chatbox.addActionListener(new ActionListener() {
 
 	    	   //@Override
@@ -116,6 +118,7 @@ public class MyBot extends JFrame{
         JSONParser parser = new JSONParser();
 
         try {
+        	NumberFormat formatter = new DecimalFormat("#0.0");     
 
             Object obj = parser.parse(json);
             JSONObject jsonObject = (JSONObject) obj;
@@ -127,9 +130,9 @@ public class MyBot extends JFrame{
 
             JSONObject tempData1 = (JSONObject) jsonObject.get("main");
 
-            chatArea.append("Temperature: " +  (Double.parseDouble(tempData1.get("temp").toString()) - 273.15)+" Deg C\n"); //in Deg C
-            chatArea.append("Temperature Min: "+(Double.parseDouble(tempData1.get("temp_min").toString()) - 273.15)+" Deg C\n");//in Deg C
-            chatArea.append("Temperature Max: "+ (Double.parseDouble(tempData1.get("temp_max").toString()) - 273.15)+" Deg C\n");//in Deg C
+            chatArea.append("Temperature: " +  formatter.format(Double.parseDouble(tempData1.get("temp").toString()) - 273.15)+" Deg C\n"); //in Deg C
+            chatArea.append("Temperature Min: "+formatter.format(Double.parseDouble(tempData1.get("temp_min").toString()) - 273.15)+" Deg C\n");//in Deg C
+            chatArea.append("Temperature Max: "+ formatter.format(Double.parseDouble(tempData1.get("temp_max").toString()) - 273.15)+" Deg C\n");//in Deg C
             chatArea.append("Pressure: " + tempData1.get("pressure")+"\n"); //hpa
             chatArea.append("Humidity: " + tempData1.get("humidity")+"\n"); //%
             if((Double.parseDouble(tempData1.get("temp").toString()) - 273.15)<-10.00) {
@@ -173,3 +176,4 @@ public class MyBot extends JFrame{
     }
 
 }
+
