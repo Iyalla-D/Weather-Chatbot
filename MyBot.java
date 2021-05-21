@@ -2,6 +2,7 @@ package chatbot;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Set;
@@ -39,7 +40,7 @@ public class MyBot extends JFrame{
        setLocationRelativeTo(null);
        setResizable(false);
 	    
-	    
+	    chatArea.setForeground(Color.white);
 	    chatArea.setEnabled(true);
 	    chatArea.setFont(new Font("Comic Sans",Font.BOLD,15));
 	    chatArea.setEditable(false);
@@ -49,13 +50,12 @@ public class MyBot extends JFrame{
 	    final JTextField chatbox= new JTextField();
 	    chatbox.setSize(540, 30);
 	    chatbox.setLocation(2, 500);
-	       
 	    JScrollPane scroll = new JScrollPane(chatArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 	    chatArea.setWrapStyleWord(true);
 	    add(chatbox);
 	    add(scroll);
-	    
+	    chatArea.setBackground( new Color(108, 193, 227));
 	    chatArea.append("Bot: Hello"+"\n");
 	    chatbox.addActionListener(new ActionListener() {
 
@@ -80,7 +80,6 @@ public class MyBot extends JFrame{
             String lowerKey = key.toLowerCase();
             String lowerQuestion = question.toLowerCase();
             if (lowerKey.contains(lowerQuestion)) {
-            	
                chatArea.append("Bot: " + knowledge.get(key)+"\n");
                chatArea.append("Bot: " + "If you want the weather, enter a location \n");
                return;//break
