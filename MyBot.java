@@ -58,7 +58,7 @@ public class MyBot extends JFrame{
 	    add(chatbox);
 	    add(scroll);
 	    chatArea.setBackground( new Color(108, 193, 227));
-	    chatArea.append("Bot: Hello"+"\n");
+	    chatArea.append("Bot: Type 'hello' to start."+"\n");
 	    chatbox.addActionListener(new ActionListener() {
 
 	    	   //@Override
